@@ -10,10 +10,7 @@ class connect {
 	private $username;
 	private $password;
 	private $database;
-	private $table;
-	private $column;
 	private $connection;
-	private $query;
 	private $result;
 	
 	/**
@@ -33,11 +30,12 @@ class connect {
 	/**
 	 * exectes the query
 	 */
-	function execute($query) {
-		$this->query = $query;
-		if(!$this->result = $this->connection->query($this->query)) {
-			$this->result = "";
+	public function executeQuery($query) {
+		if(!$result = $this->connection->query($query)) {
 			echo "Failed to execut query: (" . $this->connection->errno . ") " . $this->connection->error;
+		}
+		else {
+			$this->result = $result;
 		}
 	}
 
@@ -45,15 +43,43 @@ class connect {
 	 * to get the fetched result from the executed query
 	 */
 
-	function getrows() {
-		if($this->result="") {
-			return false;
-		}
-		else {
-			return $this->result->
-		}
+	public function getRows() {
+		return $this->result->fetch_array();
 	}
 
+	/**
+	 * to get num of rows
+	 */
+	public function numRows() {
+		return $this->last->num_rows;
+  }
+
+	/**
+	 * insert records
+	 * parameters : table, column, values
+	 * column - it has to be an array eg . array([0]=>'column1', [1]=>'column2', [2]=>'etc')
+	 * values - it has to be an array eg . array([0]=>'value1', [1]=>'value2', [2]=>'etc')
+	 */
+
+	public function insert($table, $column, $values) {
+		if(count($column)==count($values)) {
+			foreach($column as $c) {
+				$columns .= $c.', '
+			}
+			$columns = substr($columns,0,-2);
+			foreach($values as $c) {
+				$value .= $c.', '
+			}
+			$columns = substr($columns,0,-2);
+			$value = substr($value,0,-2);
+			$query = 'INSERT INTO '.$table.' ('.$column.') VALUES ('.$values.')';
+			$this->executeQuery($query);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
 
 ?>
