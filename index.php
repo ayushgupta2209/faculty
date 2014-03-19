@@ -13,5 +13,6 @@ if($url->getName()) {
 	echo '<br>helo welcome to '.$url->getDepartment().' Department and prof : '.$url->getName();
 }
 $db = new connect('localhost','garvit','garvit','project');
+$url->getDepartment();
 
 ?>
