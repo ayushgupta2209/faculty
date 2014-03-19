@@ -9,6 +9,7 @@ class urlprocessing {
 	public function __construct(connect $db) {
 		$this->db = $db;
 		$this->url = $_SERVER['REQUEST_URI'];
+		$this->url = $this->db->sanitizeData($this->url);
 		$this->urlbits = explode('/',$this->url);
 	}
 
