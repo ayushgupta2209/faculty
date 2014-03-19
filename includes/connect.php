@@ -44,7 +44,7 @@ class connect {
 	 */
 
 	public function getRows() {
-		return $this->result->fetch_array();
+		return $this->result->fetch_array(MYSQLI_ASSOC);
 	}
 
 	/**
