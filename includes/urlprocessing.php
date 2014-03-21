@@ -15,10 +15,11 @@ class urlprocessing {
 
 	public function getDepartment() {
 		if(count($this->urlbits)>2) {
-			$this->db->executeQuery('SELECT department FROM faculty_brief');
-			while($this->result = $this->db->getRows())
+			$this->db->executeQuery('SELECT dept_short FROM faculty_brief');
+			$this->result = $this->db->getRows();
+			foreach($this->result as $result)
 			{
-				if($this->urlbits[2]==$this->result['department']) {
+				if($this->urlbits[2]==$result['dept_short']) {
 					return $this->urlbits[2];
 				}
 			}
@@ -26,13 +27,14 @@ class urlprocessing {
 		return false;
 	}
 
-	public function getNameID() {
+	public function getName() {
 		if(count($this->urlbits)>3) {
-			$this->db->executeQuery('SELECT department,name FROM faculty_brief');
-			while($this->result = $this->db->getRows())
+			$this->db->executeQuery('SELECT dept_short,name FROM faculty_brief');
+			$this->result = $this->db->getRows();
+			foreach($this->result as $result)
 			{
-				if($this->urlbits[2] == $this->result['department'] && $this->urlbits[3] == $this->result['name']) {
-					return $this->urlbits[2].'/'.$this->urlbits[3];
+				if($this->urlbits[2] == $result['dept_short'] && $this->urlbits[3] == $result['name']) {
+					return $this->urlbits[3];
 				}
 			}
 		}

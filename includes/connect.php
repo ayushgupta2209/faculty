@@ -35,6 +35,7 @@ class connect {
 			echo "Failed to execut query: (" . $this->connection->errno . ") " . $this->connection->error;
 		}
 		else {
+			$result = $this->connection->query($query);
 			$this->result = $result;
 		}
 	}
@@ -44,8 +45,17 @@ class connect {
 	 */
 
 	public function getRows() {
-		return $this->result->fetch_array(MYSQLI_ASSOC);
+		if($this->numRows()>1) {
+			$rows = array();
+			while($row = $this->result->fetch_array())
+			{
+				$rows[] = $row;
+			}
+			return $rows;
+		}
+		return $this->result->fetch_array();
 	}
+
 
 	/**
 	 * to get num of rows

@@ -5,15 +5,17 @@
 DEFINE("FRAMEWORK_PATH", dirname( __FILE__ ) ."/includes/" );
 include FRAMEWORK_PATH.'urlprocessing.php';
 include FRAMEWORK_PATH.'connect.php';
+include FRAMEWORK_PATH.'template.php';
 $db = new connect('localhost','garvit','garvit','project');
 $url = new urlprocessing($db);
-if($url->getDepartment()) {
-	echo 'helo welcome to '.$url->getDepartment().' Department';
+$template = new template($db, $url);
+if($url->getName() && $url->getDepartment()) {
+	$template->displayProf();
 }
-if($url->getNameId()) {
-	echo '<br>helo welcome to '.$url->getDepartment().' Department and prof : '.$url->getNameId();
+elseif($url->getDepartment() && !$url->getName() ) {
+	$template->displayDept();
 }
-
-$url->getDepartment();
-
+else {
+	$template->listDept();
+}
 ?>
