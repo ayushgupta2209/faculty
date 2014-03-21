@@ -62,17 +62,19 @@ class connect {
 	 */
 
 	public function insert($table, $column, $values) {
+		$columns = "";
+		$value = '';
 		if(count($column)==count($values)) {
 			foreach($column as $c) {
 				$columns .= $c.', ';
 			}
 			$columns = substr($columns,0,-2);
 			foreach($values as $c) {
-				$value .= $c.', ';
+				$value .= '"'.$c.'", ';
 			}
-			$columns = substr($columns,0,-2);
 			$value = substr($value,0,-2);
-			$query = 'INSERT INTO '.$table.' ('.$column.') VALUES ('.$values.')';
+			$query = 'INSERT INTO '.$table.' ('.$columns.') VALUES ('.$value.')';
+			echo $query;
 			$this->executeQuery($query);
 			return true;
 		}
